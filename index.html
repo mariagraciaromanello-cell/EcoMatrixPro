@@ -1,75 +1,273 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoMatrix Pro - Cribado Ambiental</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Iconos simples -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Matriz Ambiental — herramienta para identificar y valorar preliminarmente impactos ambientales.">
+  <title>Matriz Ambiental</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" role="img">
+          <path d="M18 31h28l-3 22H21z" />
+          <path d="M24 31c1-12 7-18 13-22M31 31c0-9 4-16 12-20" />
+          <path d="M37 14c7-2 12 1 14 6-7 1-12-1-14-6Z" />
+          <path d="M27 20c-6-1-10 2-12 7 6 1 10-1 12-7Z" />
+        </svg>
+      </div>
+      <div>
+        <h1>Matriz Ambiental</h1>
+        <p>Evaluación preliminar de impactos</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" id="btnNuevo" type="button">Nuevo</button>
+      <button class="btn btn-primary" id="btnGuardar" type="button">Guardar</button>
+    </div>
+  </header>
 
-    <header>
-        <h1><i class="fas fa-leaf"></i> EcoMatrix Pro</h1>
-        <p>Matriz de Impacto Rápido para Ingenieros</p>
-    </header>
+  <main class="container">
+    <div id="mensaje" class="message" role="status" aria-live="polite" hidden></div>
 
-    <main>
-        <!-- Paso 1: Configuración del Proyecto -->
-        <section class="card" id="step-1">
-            <h2>1. Definir Proyecto</h2>
-            <div class="form-group">
-                <label for="projectName">Nombre del Proyecto:</label>
-                <input type="text" id="projectName" placeholder="Ej: Planta Tratamiento Aguas">
+    <section class="intro panel">
+      <div>
+        <span class="eyebrow">Herramienta profesional de apoyo</span>
+        <h2>Identificá y estimá los posibles impactos de tu proyecto.</h2>
+        <p>Partí de una base sugerida y personalizá acciones, factores y criterios según el contexto de evaluación.</p>
+      </div>
+      <div class="intro-badge">💧 <strong>Perfil La Rioja</strong><span>Agua como eje ambiental</span></div>
+    </section>
+
+    <nav class="steps" aria-label="Etapas de la evaluación">
+      <button class="step active" data-step="1" type="button"><span>1</span> Proyecto</button>
+      <button class="step" data-step="2" type="button"><span>2</span> Factores</button>
+      <button class="step" data-step="3" type="button"><span>3</span> Acciones</button>
+      <button class="step" data-step="4" type="button"><span>4</span> Matriz</button>
+      <button class="step" data-step="5" type="button"><span>5</span> Resumen</button>
+    </nav>
+
+    <section class="step-panel active" id="step1">
+      <div class="panel">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">Paso 1</span>
+            <h2>Datos del proyecto</h2>
+          </div>
+          <span class="status-pill">Base editable</span>
+        </div>
+        <div class="form-grid">
+          <label>Nombre del proyecto
+            <input id="projectName" type="text" placeholder="Ej.: Planta de tratamiento de efluentes">
+          </label>
+          <label>Ubicación
+            <input id="projectLocation" type="text" placeholder="Ej.: La Rioja Capital">
+          </label>
+          <label>Tipo de proyecto
+            <select id="projectType">
+              <option value="industrial">Industrial</option>
+              <option value="agropecuario">Agropecuario / agroindustrial</option>
+              <option value="minero">Minero</option>
+              <option value="urbanistico">Urbanístico / inmobiliario</option>
+              <option value="infraestructura">Infraestructura</option>
+              <option value="energetico">Energético</option>
+              <option value="residuos">Gestión de residuos</option>
+              <option value="agua">Agua / saneamiento</option>
+              <option value="otro">Otro</option>
+            </select>
+          </label>
+          <label>Etapa
+            <select id="projectStage">
+              <option value="construccion">Construcción</option>
+              <option value="operacion">Funcionamiento / operación</option>
+              <option value="ampliacion">Ampliación / modificación</option>
+              <option value="cierre">Cierre / abandono</option>
+            </select>
+          </label>
+          <label>Perfil ambiental
+            <select id="profile">
+              <option value="larioja">La Rioja</option>
+              <option value="generico">Genérico</option>
+              <option value="personalizado">Personalizado</option>
+            </select>
+          </label>
+          <label class="full">Descripción breve
+            <textarea id="projectDescription" rows="4" placeholder="Describí brevemente el proyecto, sus principales procesos y características."></textarea>
+          </label>
+        </div>
+        <div class="info-callout">
+          <strong>💧 Perfil La Rioja:</strong> propone factores específicos vinculados con disponibilidad, consumo, calidad, efluentes y competencia por el recurso hídrico. Podés modificarlos libremente.
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary next-step" data-next="2" type="button">Continuar con factores →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="step-panel" id="step2">
+      <div class="panel">
+        <div class="section-heading">
+          <div><span class="eyebrow">Paso 2</span><h2>Factores ambientales</h2></div>
+          <button class="btn btn-secondary" id="btnAddFactor" type="button">＋ Agregar factor</button>
+        </div>
+        <p class="muted">La app propone factores. Vos decidís cuáles forman parte de esta evaluación.</p>
+        <div id="factorsList" class="item-list"></div>
+        <div class="actions">
+          <button class="btn btn-secondary prev-step" data-prev="1" type="button">← Volver</button>
+          <button class="btn btn-primary next-step" data-next="3" type="button">Continuar con acciones →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="step-panel" id="step3">
+      <div class="panel">
+        <div class="section-heading">
+          <div><span class="eyebrow">Paso 3</span><h2>Acciones del proyecto</h2></div>
+          <button class="btn btn-secondary" id="btnAddAction" type="button">＋ Agregar acción</button>
+        </div>
+        <p class="muted">Seleccioná las acciones que realmente ocurren en el proyecto y agregá las que falten.</p>
+        <div id="actionsList" class="item-list"></div>
+        <div class="actions">
+          <button class="btn btn-secondary prev-step" data-prev="2" type="button">← Volver</button>
+          <button class="btn btn-primary next-step" data-next="4" type="button">Construir matriz →</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="step-panel" id="step4">
+      <div class="panel">
+        <div class="section-heading">
+          <div><span class="eyebrow">Paso 4</span><h2>Matriz de impactos</h2></div>
+          <div class="legend">
+            <span><i class="dot negative"></i> Negativo</span>
+            <span><i class="dot positive"></i> Positivo</span>
+            <span><i class="dot neutral"></i> Sin interacción</span>
+          </div>
+        </div>
+        <p class="muted">Hacé clic en una interacción para identificarla y valorarla. Las celdas vacías no forman parte de la evaluación.</p>
+        <div class="matrix-wrap">
+          <table id="matrixTable" class="matrix">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div id="impactEditor" class="impact-editor" hidden>
+          <div class="editor-head">
+            <div>
+              <span class="eyebrow">Interacción seleccionada</span>
+              <h3 id="editorTitle"></h3>
             </div>
-            <div class="form-group">
-                <label for="projectType">Tipo de Actividad:</label>
-                <select id="projectType">
-                    <option value="general">General / Indeterminado</option>
-                    <option value="construction">Construcción Civil</option>
-                    <option value="industrial">Industria Manufactura</option>
-                    <option value="mining">Minería / Extracción</option>
-                    <option value="energy">Generación de Energía</option>
-                </select>
-            </div>
-            <button onclick="generateMatrix()" class="btn-primary">Generar Matriz</button>
-        </section>
+            <button class="icon-btn" id="btnCloseEditor" type="button" aria-label="Cerrar">×</button>
+          </div>
+          <div class="form-grid compact">
+            <label>Naturaleza
+              <select id="impactNature">
+                <option value="negativo">Negativo</option>
+                <option value="positivo">Positivo</option>
+              </select>
+            </label>
+            <label>Intensidad
+              <select id="impactIntensity">
+                <option value="1">Baja</option>
+                <option value="3">Media</option>
+                <option value="5">Alta</option>
+              </select>
+            </label>
+            <label>Extensión
+              <select id="impactExtent">
+                <option value="1">Puntual</option>
+                <option value="3">Local</option>
+                <option value="5">Regional</option>
+              </select>
+            </label>
+            <label>Duración
+              <select id="impactDuration">
+                <option value="1">Temporal</option>
+                <option value="3">Prolongada</option>
+                <option value="5">Permanente</option>
+              </select>
+            </label>
+            <label>Reversibilidad
+              <select id="impactReversibility">
+                <option value="1">Fácilmente reversible</option>
+                <option value="3">Parcialmente reversible</option>
+                <option value="5">Irreversible</option>
+              </select>
+            </label>
+            <label>Probabilidad
+              <select id="impactProbability">
+                <option value="1">Baja</option>
+                <option value="3">Media</option>
+                <option value="5">Alta</option>
+              </select>
+            </label>
+            <label class="full">Observaciones
+              <textarea id="impactNotes" rows="3" placeholder="Fundamento, condición, medida existente, etc."></textarea>
+            </label>
+          </div>
+          <div class="impact-score">
+            <span>Valor preliminar</span>
+            <strong id="impactScore">—</strong>
+            <small id="impactLevel">Completá los criterios</small>
+          </div>
+          <div class="actions">
+            <button class="btn btn-danger-outline" id="btnRemoveImpact" type="button">Eliminar interacción</button>
+            <button class="btn btn-primary" id="btnSaveImpact" type="button">Guardar interacción</button>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-secondary prev-step" data-prev="3" type="button">← Volver</button>
+          <button class="btn btn-primary next-step" data-next="5" type="button">Ver resumen →</button>
+        </div>
+      </div>
+    </section>
 
-        <!-- Paso 2: La Matriz (Se llena dinámicamente) -->
-        <section class="card hidden" id="step-2">
-            <h2>2. Evaluar Impactos</h2>
-            <p class="subtitle">Selecciona Magnitud (1-5) e Intensidad (1-5)</p>
-            
-            <div class="matrix-container">
-                <table id="impactTable">
-                    <thead>
-                        <tr>
-                            <th>Factor Ambiental</th>
-                            <th>Magnitud (M)</th>
-                            <th>Intensidad (I)</th>
-                            <th>Impacto (M x I)</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody id="matrixBody">
-                        <!-- Filas generadas por JS -->
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="results-panel hidden" id="resultsPanel">
-                <h3>Resumen de Criterio</h3>
-                <div id="summaryText"></div>
-                <button onclick="exportPDF()" class="btn-secondary">Descargar Reporte PDF</button>
-            </div>
-        </section>
-    </main>
+    <section class="step-panel" id="step5">
+      <div class="panel">
+        <div class="section-heading">
+          <div><span class="eyebrow">Paso 5</span><h2>Resumen preliminar</h2></div>
+          <div class="actions-inline">
+            <button class="btn btn-secondary" id="btnExportCSV" type="button">Descargar CSV</button>
+            <button class="btn btn-primary" id="btnPrint" type="button">Imprimir / PDF</button>
+          </div>
+        </div>
+        <div id="summary"></div>
+        <div class="disclaimer">
+          <strong>Evaluación preliminar orientativa.</strong>
+          Los resultados de esta herramienta no sustituyen un Estudio de Impacto Ambiental, una evaluación profesional completa ni el cumplimiento de la normativa aplicable.
+        </div>
+        <div class="actions">
+          <button class="btn btn-secondary prev-step" data-prev="4" type="button">← Volver a la matriz</button>
+        </div>
+      </div>
+    </section>
+  </main>
 
-    <footer>
-        <p>Versión Lite | Desarrollado para Ingenieros Ambientales</p>
-    </footer>
+  <footer class="site-footer">
+    <span>Matriz Ambiental · Herramienta de apoyo profesional</span>
+    <span>Los datos se almacenan localmente en este dispositivo.</span>
+  </footer>
 
-    <script src="script.js"></script>
+  <dialog id="itemDialog" class="dialog">
+    <form method="dialog" id="itemForm">
+      <div class="dialog-head">
+        <h3 id="dialogTitle">Agregar elemento</h3>
+        <button class="icon-btn" value="cancel" type="submit" aria-label="Cerrar">×</button>
+      </div>
+      <label>Nombre
+        <input id="itemName" type="text" required maxlength="100" placeholder="Nombre del elemento">
+      </label>
+      <label id="itemGroupLabel">Grupo
+        <select id="itemGroup"></select>
+      </label>
+      <div class="dialog-actions">
+        <button class="btn btn-secondary" value="cancel" type="submit">Cancelar</button>
+        <button class="btn btn-primary" id="btnConfirmItem" value="default" type="submit">Agregar</button>
+      </div>
+    </form>
+  </dialog>
 </body>
 </html>
