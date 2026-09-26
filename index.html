@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoMatrix Pro - Cribado Ambiental</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Iconos simples -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1><i class="fas fa-leaf"></i> EcoMatrix Pro</h1>
+        <p>Matriz de Impacto Rápido para Ingenieros</p>
+    </header>
+
+    <main>
+        <!-- Paso 1: Configuración del Proyecto -->
+        <section class="card" id="step-1">
+            <h2>1. Definir Proyecto</h2>
+            <div class="form-group">
+                <label for="projectName">Nombre del Proyecto:</label>
+                <input type="text" id="projectName" placeholder="Ej: Planta Tratamiento Aguas">
+            </div>
+            <div class="form-group">
+                <label for="projectType">Tipo de Actividad:</label>
+                <select id="projectType">
+                    <option value="general">General / Indeterminado</option>
+                    <option value="construction">Construcción Civil</option>
+                    <option value="industrial">Industria Manufactura</option>
+                    <option value="mining">Minería / Extracción</option>
+                    <option value="energy">Generación de Energía</option>
+                </select>
+            </div>
+            <button onclick="generateMatrix()" class="btn-primary">Generar Matriz</button>
+        </section>
+
+        <!-- Paso 2: La Matriz (Se llena dinámicamente) -->
+        <section class="card hidden" id="step-2">
+            <h2>2. Evaluar Impactos</h2>
+            <p class="subtitle">Selecciona Magnitud (1-5) e Intensidad (1-5)</p>
+            
+            <div class="matrix-container">
+                <table id="impactTable">
+                    <thead>
+                        <tr>
+                            <th>Factor Ambiental</th>
+                            <th>Magnitud (M)</th>
+                            <th>Intensidad (I)</th>
+                            <th>Impacto (M x I)</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matrixBody">
+                        <!-- Filas generadas por JS -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="results-panel hidden" id="resultsPanel">
+                <h3>Resumen de Criterio</h3>
+                <div id="summaryText"></div>
+                <button onclick="exportPDF()" class="btn-secondary">Descargar Reporte PDF</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Versión Lite | Desarrollado para Ingenieros Ambientales</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
